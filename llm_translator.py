@@ -147,32 +147,6 @@ class LLMTranslator:
         merge_all_thread_output()
 
     
-    def _save_papers(self, papers: List[Dict], date_str: str, category: str):
-        """
-        保存论文数据到本地
-        
-        Args:
-            papers: 论文列表
-            date_str: 日期字符串 (格式: YYYY-M-D)
-            category: 论文分类
-        """
-        try:
-            # 创建目录结构: data/date_str/category
-            save_dir = Path("data") / date_str / category
-            save_dir.mkdir(parents=True, exist_ok=True)
-            
-            # 保存为 JSON 文件
-            save_path = save_dir / "papers.json"
-            
-            with open(save_path, 'w', encoding='utf-8') as f:
-                json.dump(papers, f, ensure_ascii=False, indent=2)
-            
-            print(f"✓ 数据已保存到: {save_path}")
-            print(f"  共保存 {len(papers)} 篇论文")
-            
-        except Exception as e:
-            print(f"⚠️  保存数据失败: {e}")
-    
     def _load_papers(self, date_str: str, category: str) -> Optional[List[Dict]]:
         """
         从本地加载已翻译的论文数据
@@ -200,65 +174,6 @@ class LLMTranslator:
         except Exception as e:
             print(f"⚠️  加载本地数据失败: {e}")
             return None
-    
-    def _save_matched_papers(self, papers: List[Dict], date_str: str, category: str, keywords: List[str]):
-        """
-        保存匹配到的论文数据到本地
-        
-        Args:
-            papers: 匹配到的论文列表
-            date_str: 日期字符串 (格式: YYYY-M-D)
-            category: 论文分类
-            keywords: 关键词列表
-        """
-        try:
-            # 将关键词列表转换为文件夹名称（用下划线连接）
-            keywords_folder = "&".join(keywords)
-            
-            # 创建目录结构: data/date_str/category/keywords
-            save_dir = Path("data") / date_str / category / keywords_folder
-            save_dir.mkdir(parents=True, exist_ok=True)
-            
-            # 保存为 JSON 文件
-            save_path = save_dir / "matched_papers.json"
-            
-            with open(save_path, 'w', encoding='utf-8') as f:
-                json.dump(papers, f, ensure_ascii=False, indent=2)
-            
-            print(f"✓ 匹配结果已保存到: {save_path}")
-            print(f"  共保存 {len(papers)} 篇相关论文")
-            
-        except Exception as e:
-            print(f"⚠️  保存匹配结果失败: {e}")
-    
-    def _save_match_log(self, log_entries: List[Dict], date_str: str, category: str, keywords: List[str]):
-        """
-        保存匹配过程的日志
-        
-        Args:
-            log_entries: 日志条目列表
-            date_str: 日期字符串 (格式: YYYY-M-D)
-            category: 论文分类
-            keywords: 关键词列表
-        """
-        try:
-            # 将关键词列表转换为文件夹名称
-            keywords_folder = "&".join(keywords)
-            
-            # 创建目录结构: data/date_str/category/keywords
-            save_dir = Path("data") / date_str / category / keywords_folder
-            save_dir.mkdir(parents=True, exist_ok=True)
-            
-            # 保存为日志文件
-            log_path = save_dir / "match_log.json"
-            
-            with open(log_path, 'w', encoding='utf-8') as f:
-                json.dump(log_entries, f, ensure_ascii=False, indent=2)
-            
-            print(f"✓ 匹配日志已保存到: {log_path}")
-            
-        except Exception as e:
-            print(f"⚠️  保存匹配日志失败: {e}")
     
     def match_single_paper(self, paper: Dict, keywords_str: str) -> tuple:
         """
