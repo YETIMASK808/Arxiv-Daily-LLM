@@ -73,15 +73,6 @@ class LLMTranslator:
     def translate_abstract(self, abstract: str) -> str:
         """翻译摘要为中文"""
         try:
-            # response = self.client.chat.completions.create(
-            #     model=self.model,
-            #     messages=[
-            #         {"role": "system", "content": "你是一个专业的学术论文翻译助手，请将英文摘要翻译成流畅的中文。"},
-            #         {"role": "user", "content": f"请翻译以下论文摘要：\n\n{abstract}"}
-            #     ],
-            #     temperature=0.3
-            # )
-            # return response.choices[0].message.content.strip()
             return self.self_define_receive_llm_output(self.translate_prompt.format(abstract=abstract))
         except Exception as e:
             print(f"翻译失败: {e}")
@@ -150,22 +141,12 @@ class LLMTranslator:
         
         # 本地没有数据，开始翻译
         print(f"开始翻译 {len(papers)} 篇论文摘要...")
-        
-        # for i, paper in enumerate(papers):
-        #     print(f"翻译进度: {i+1}/{len(papers)}")
-        #     paper["abstract_zh"] = self.translate_abstract(paper["abstract"])
-        #     time.sleep(0.5)  # 避免请求过快
 
         group_papers = self.split_papers_for_threading(papers)
         threading_translate(group_papers, date_str, category)
         print("翻译完成！")
         merge_all_thread_output()
-        
-        # # 保存翻译后的数据
-        # if date_str:
-        #     self._save_papers(papers, date_str, category)
-        
-        # return papers
+
     
     def _save_papers(self, papers: List[Dict], date_str: str, category: str):
         """
