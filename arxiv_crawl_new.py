@@ -472,21 +472,3 @@ class ArxivNewFetcher:
             print(f"链接: {paper.get('arxiv_url', 'N/A')}")
             print(f"摘要: {paper.get('abstract', 'N/A')}")
 
-
-# 测试代码
-if __name__ == "__main__":
-    fetcher = ArxivNewFetcher(category="cs.CL")
-    # date_str, papers = fetcher.fetch_new_submissions()
-    
-    # if date_str:
-    #     print(f"\n日期: {date_str}")
-    
-    # print(f"\n总共获取到 {len(papers)} 篇新提交的论文")
-    
-    # # 打印前 3 篇论文的详细信息
-    # if papers:
-    #     fetcher.print_papers(papers[:3])
-
-
-    # res = fetcher.fetch_specific_day("20260224", "20260226")
-    # print(len(res[1]))

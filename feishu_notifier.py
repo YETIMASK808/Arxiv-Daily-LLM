@@ -32,26 +32,6 @@ class FeishuNotifier:
     def send_markdown(self, title: str, text: str) -> bool:
         """发送 Markdown 格式消息"""
         headers = {'Content-Type': 'application/json'}
-        
-        # 构建消息体
-        # data = {
-        #     "msg_type": "interactive",
-        #     "card": {
-        #         "header": {
-        #             "title": {
-        #                 "tag": "plain_text",
-        #                 "content": title
-        #             },
-        #             "template": "blue"
-        #         },
-        #         "elements": [
-        #             {
-        #                 "tag": "markdown",
-        #                 "content": text
-        #             }
-        #         ]
-        #     }
-        # }
 
         data = {
                 "msg_type":"text",
@@ -263,14 +243,3 @@ class FeishuNotifier:
             print(f"✗ 飞书消息发送异常: {e}")
             return False
 
-
-# test = FeishuNotifier("https://www.feishu.cn/flow/api/trigger-webhook/051a44361519894f660fd4a2f2fa35dd", "2026-01-01")
-# test_paper = {
-#     "title": "test",
-#     "authors": ["lishunran"],
-#     "match_reason": "test",
-#     "abstract_zh": "test" * 10000 + "<end>",
-#     "pdf_url": "https://www.feishu.cn/",
-#     "arxiv_url": "https://www.feishu.cn/"
-# }
-# test.send_papers([test_paper], "2026-01-01")

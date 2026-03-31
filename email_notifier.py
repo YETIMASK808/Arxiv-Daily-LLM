@@ -173,29 +173,3 @@ class EmailNotifier:
         else:
             return ', '.join(authors[:3]) + f" 等 {len(authors)} 人"
 
-
-# 测试代码
-if __name__ == "__main__":
-    # 示例配置（需要替换为实际的邮箱信息）
-    notifier = EmailNotifier(
-        smtp_server="smtp.qq.com",
-        smtp_port=465,
-        sender_email="920467259@qq.com",
-        sender_password="ealfvbegqqlsbbfc",
-        receiver_email="920467259@qq.com"
-    )
-    
-    # 测试论文数据
-    test_paper = {
-        "title": "Test Paper Title",
-        "authors": ["Author 1", "Author 2"],
-        "abstract": "This is a test abstract.",
-        "abstract_zh": "这是一个测试摘要。",
-        "match_reason": "与关键词相关",
-        "pdf_url": "https://arxiv.org/pdf/2402.12345.pdf",
-        "arxiv_url": "https://arxiv.org/abs/2402.12345"
-    }
-    
-    # 发送测试邮件
-    notifier.send_matched_papers([test_paper], "2026-02-25")
-

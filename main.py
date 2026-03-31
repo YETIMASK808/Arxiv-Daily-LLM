@@ -158,11 +158,6 @@ def main():
     print("1. 加载配置文件...")
     config = load_config()
     
-    # 验证配置
-    # if config['llm']['api_key'] == "your-api-key-here":
-    #     print("错误: 请在 config.yaml 中配置你的 LLM API Key")
-    #     exit(1)
-    
     if config['feishu']['webhook'] == "your-feishu-webhook-url":
         print("错误: 请在 config.yaml 中配置你的飞书 Webhook 地址")
         exit(1)
