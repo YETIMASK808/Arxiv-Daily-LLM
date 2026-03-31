@@ -1,0 +1,22 @@
+# Python 编译文件
+__pycache__/
+*.pyc
+dingtalk_notifier.py
+test_yaml_safe_load.py
+arxiv_fetcher.py
+
+# 虚拟环境
+venv/
+env/
+
+# 配置文件（包含密钥）
+config.yaml
+# ENV_CONFIG.md
+# daily-fetch.yml
+
+# 日志
+*.log
+
+# 数据
+data/
+

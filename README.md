@@ -10,6 +10,7 @@
 - 📧 支持发送邮件（两封：全部论文 + 匹配论文）
 - 🤖 支持 GitHub Actions 自动运行
 - 💾 支持本地运行
+- 🔧 LLM 调用默认使用 OpenAI 兼容接口，可自定义替换为任意请求方式（详见[常见问题 #6](#6-如何自定义-llm-请求接口)）
 
 ## 快速开始
 
@@ -241,6 +242,19 @@ export EMAIL_ENABLED=false
 - `tmp/`: 临时缓存文件
 - `关键词/matched_papers.json`: 匹配的论文
 - `关键词/match_log.json`: 匹配日志
+
+### 6. 如何自定义 LLM 请求接口？
+
+本项目默认使用 OpenAI 兼容接口调用 LLM。如果你希望替换为自己的请求方式，只需修改 `llm_translator.py` 中的 `self_define_receive_llm_output` 函数即可，无需改动其他代码。
+
+该函数是翻译和关键词匹配的统一入口，签名如下：
+
+```python
+def self_define_receive_llm_output(self, prompt: str, system_prompt: str = "You are a helpful assistant.", temperature: float = 0.7, max_tokens: Optional[int] = None) -> str:
+    # 替换为你自己的请求逻辑，保证返回模型输出的字符串即可
+    ...
+    return "模型返回的文本"
+```
 
 ## 定时任务
 
