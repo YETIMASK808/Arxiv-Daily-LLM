@@ -29,38 +29,6 @@ class FeishuNotifier:
         sign = base64.b64encode(hmac_code).decode('utf-8')
         return sign
     
-    def send_markdown(self, title: str, text: str) -> bool:
-        """发送 Markdown 格式消息"""
-        headers = {'Content-Type': 'application/json'}
-
-        data = {
-                "msg_type":"text",
-                "content":
-                    {"title": title,
-                    "text": text}
-                }
-        
-        # 如果配置了加签，添加签名
-        if self.secret:
-            timestamp = int(time.time())
-            sign = self._sign(timestamp)
-            data["timestamp"] = str(timestamp)
-            data["sign"] = sign
-        
-        try:
-            response = requests.post(self.webhook, json=data, headers=headers)
-            result = response.json()
-            
-            if result.get("code") == 0 or result.get("StatusCode") == 0:
-                print("✓ 飞书消息发送成功")
-                return True
-            else:
-                print(f"✗ 飞书消息发送失败: {result}")
-                return False
-        except Exception as e:
-            print(f"✗ 飞书消息发送异常: {e}")
-            return False
-    
     def send_papers(self, papers: List[Dict], date: str, keywords: List[str] = None, categories: List[str] = None) -> bool:
         """
         发送论文列表（使用简单文本模板）
@@ -142,13 +110,6 @@ class FeishuNotifier:
         else:
             return ', '.join(authors[:3]) + f" 等 {len(authors)} 人"
     
-    def _format_abstract(self, abstract: str) -> str:
-        """格式化摘要（限制长度）"""
-        max_length = 300
-        if len(abstract) > max_length:
-            return abstract[:max_length] + "..."
-        return abstract
-    
     def _send_text(self, title: str, text: str) -> bool:
         """发送纯文本消息"""
         headers = {'Content-Type': 'application/json'}
@@ -160,65 +121,6 @@ class FeishuNotifier:
             "msg_type": "text",
             "content": {
                 "text": full_text
-            }
-        }
-        
-        # 如果配置了加签
-        if self.secret:
-            timestamp = int(time.time())
-            sign = self._sign(timestamp)
-            data["timestamp"] = str(timestamp)
-            data["sign"] = sign
-        
-        try:
-            response = requests.post(self.webhook, json=data, headers=headers)
-            result = response.json()
-            
-            if result.get("code") == 0 or result.get("StatusCode") == 0:
-                print("✓ 飞书消息发送成功")
-                return True
-            else:
-                print(f"✗ 飞书消息发送失败: {result}")
-                return False
-        except Exception as e:
-            print(f"✗ 飞书消息发送异常: {e}")
-            return False
-    
-    def send_rich_text(self, papers: List[Dict], date: str) -> bool:
-        """发送富文本格式消息（备用方案）"""
-        if not papers:
-            print("没有论文需要发送")
-            return False
-        
-        headers = {'Content-Type': 'application/json'}
-        
-        # 构建富文本内容
-        content = []
-        content.append([{"tag": "text", "text": f"共找到 {len(papers)} 篇相关论文\n\n"}])
-        
-        for i, paper in enumerate(papers[:10], 1):  # 限制前10篇
-            content.append([
-                {"tag": "text", "text": f"{i}. "},
-                {"tag": "a", "text": paper['title'], "href": paper['arxiv_url']},
-                {"tag": "text", "text": "\n"}
-            ])
-            
-            if "match_reason" in paper:
-                content.append([
-                    {"tag": "text", "text": f"匹配理由: {paper['match_reason']}\n"}
-                ])
-            
-            content.append([{"tag": "text", "text": "\n"}])
-        
-        data = {
-            "msg_type": "post",
-            "content": {
-                "post": {
-                    "zh_cn": {
-                        "title": f"Arxiv 论文推送 ({date})",
-                        "content": content
-                    }
-                }
             }
         }
         

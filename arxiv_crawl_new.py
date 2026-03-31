@@ -90,7 +90,6 @@ class ArxivNewFetcher:
             except requests.RequestException as e:
                 print(f"⚠️  请求失败: {e}")
                 if attempt < retry_times - 1:
-                    # wait_time = (attempt + 1) * 10
                     wait_time = 10
                     print(f"等待 {wait_time} 秒后重试...")
                     time.sleep(wait_time)
@@ -431,44 +430,4 @@ class ArxivNewFetcher:
             paper['comments'] = comments
         
         return paper
-    
-    def filter_by_keywords(self, papers: List[Dict], keywords: List[str]) -> List[Dict]:
-        """
-        根据关键词筛选论文
-        
-        Args:
-            papers: 论文列表
-            keywords: 关键词列表
-            
-        Returns:
-            筛选后的论文列表
-        """
-        if not keywords:
-            return papers
-        
-        filtered_papers = []
-        
-        for paper in papers:
-            # 在标题和摘要中搜索关键词
-            text = (paper.get('title', '') + ' ' + paper.get('abstract', '')).lower()
-            
-            for keyword in keywords:
-                if keyword.lower() in text:
-                    filtered_papers.append(paper)
-                    break
-        
-        print(f"关键词筛选: {len(papers)} -> {len(filtered_papers)} 篇")
-        return filtered_papers
-    
-    def print_papers(self, papers: List[Dict]):
-        """打印论文信息（用于调试）"""
-        for i, paper in enumerate(papers, 1):
-            print(f"\n{'='*80}")
-            print(f"论文 {i}: {paper.get('title', 'N/A')}")
-            print(f"ID: {paper.get('arxiv_id', 'N/A')}")
-            print(f"作者: {', '.join(paper.get('authors', []))}")
-            print(f"类型: {paper.get('submission_type', 'N/A')}")
-            print(f"分类: {paper.get('subjects', 'N/A')}")
-            print(f"链接: {paper.get('arxiv_url', 'N/A')}")
-            print(f"摘要: {paper.get('abstract', 'N/A')}")
 

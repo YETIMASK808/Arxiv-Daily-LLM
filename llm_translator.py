@@ -91,7 +91,6 @@ class LLMTranslator:
             print(f"保存成功: {os.path.join(save_dir, f'{idx}.json')}")
         except Exception as e:
             print(f"翻译失败: {e}")
-            # return abstract
             exit(1)
     
     def batch_translate(self, papers: List[Dict], date_str: Optional[str] = None, category: str = "cs.CL") -> List[Dict]:
