@@ -127,7 +127,7 @@ arxiv:
 ```bash
 python main.py
 ```
-自动获取今天的新提交论文，如果是周末会自动查找最近有效日期。
+自动获取运行时刻网页显示日期的新提交论文，如果是周末会自动查找最近有效日期。
 
 ### 指定日期模式
 ```bash
@@ -256,9 +256,3 @@ def self_define_receive_llm_output(self, prompt: str, system_prompt: str = "You 
     return "模型返回的文本"
 ```
 
-## 定时任务
-
-### GitHub Actions（推荐）
-
-Fork 本项目后，GitHub Actions 会自动每天运行。无需额外配置。
-> 注意：设定的定时任务只是任务提交时间，还要排队，程序真正运行要等40min+
