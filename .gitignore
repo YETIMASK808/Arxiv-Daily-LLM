@@ -20,3 +20,6 @@ config.yaml
 # 数据
 data/
 
+# 社交平台文案草稿
+xhs.txt
+
