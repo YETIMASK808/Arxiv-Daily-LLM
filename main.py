@@ -30,6 +30,7 @@ def load_config(config_path: str = "config.yaml") -> dict:
     config['llm']['api_key'] = os.getenv('LLM_API_KEY', config.get('llm', {}).get('api_key', ''))
     config['llm']['api_base'] = os.getenv('LLM_API_BASE', config.get('llm', {}).get('api_base', 'https://api.openai.com/v1'))
     config['llm']['model'] = os.getenv('LLM_MODEL', config.get('llm', {}).get('model', 'deepseek-v3'))
+    config['llm']['appid'] = os.getenv('LLM_APPID', config.get('llm', {}).get('appid', ''))
     
     # 关键词配置
     keywords_env = os.getenv('KEYWORDS', '')
@@ -248,7 +249,8 @@ def main():
         translator = LLMTranslator(
             api_key=config['llm']['api_key'],
             api_base=config['llm']['api_base'],
-            model=config['llm']['model']
+            model=config['llm']['model'],
+            appid=config['llm']['appid']
         )
         
         # 翻译并保存到 data/日期/分类/papers.json

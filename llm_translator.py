@@ -34,13 +34,13 @@ MATCH_KEYWORDS_PROMPT = \
 class LLMTranslator:
     """使用 LLM 进行翻译和关键词匹配"""
     
-    def __init__(self, api_key: str, api_base: str, model: str):
+    def __init__(self, api_key: str, api_base: str, model: str, appid: str):
         self.api_key = api_key
         self.api_base = api_base
         self.model = model
         self.translate_prompt = TRANSLATE_PROMPT
         self.match_keywords_prompt = MATCH_KEYWORDS_PROMPT
-        self.client = OpenAI(api_key=self.api_key, base_url=self.api_base) # 默认使用OpenAI风格调用LLM
+        self.client = OpenAI(api_key=self.api_key, base_url=self.api_base, default_headers={"appid": appid}) # 默认使用OpenAI风格调用LLM
     def self_define_receive_llm_output(self, prompt: str, system_prompt: str = "You are a helpful assistant.", temperature: float = 0.7, max_tokens: Optional[int] = None) -> str:
         """
         默认使用OpenAI 风格的 LLM 调用，返回模型输出文本
