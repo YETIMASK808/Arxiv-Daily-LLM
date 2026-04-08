@@ -40,7 +40,7 @@ class LLMTranslator:
         self.model = model
         self.translate_prompt = TRANSLATE_PROMPT
         self.match_keywords_prompt = MATCH_KEYWORDS_PROMPT
-        self.client = OpenAI(api_key=self.api_key, base_url=self.api_base, default_headers={"appid": appid}) # 默认使用OpenAI风格调用LLM
+        self.client = OpenAI(api_key=self.api_key, base_url=self.api_base) # 默认使用OpenAI风格调用LLM
     def self_define_receive_llm_output(self, prompt: str, system_prompt: str = "You are a helpful assistant.", temperature: float = 0.7, max_tokens: Optional[int] = None) -> str:
         """
         默认使用OpenAI 风格的 LLM 调用，返回模型输出文本
